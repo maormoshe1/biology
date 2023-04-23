@@ -207,17 +207,17 @@ class MainScreen(tk.Frame):
 
 
     def draw_grid(self):
-        redNum = 0
+        #redNum = 0
         for i in range(greed_side):
             for j in range(greed_side):
                 x1 = j * rect_side
                 y1 = i * rect_side
                 x2 = x1 + rect_side
                 y2 = y1 + rect_side
-                if self.get_color(i, j) == 'red' or self.get_color(i, j) == '#a00000':
-                    redNum += 1
+                #if self.get_color(i, j) == 'red' or self.get_color(i, j) == '#a00000':
+                 #   redNum += 1
                 self.canvas.create_rectangle(x1, y1, x2, y2, fill=self.get_color(i, j), outline='black')
-        reds.append(redNum)
+        #reds.append(redNum)
 
     #people cell - levels of gray, empty cell - white
     def get_color(self, i, j):
