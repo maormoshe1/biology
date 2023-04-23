@@ -12,8 +12,8 @@ class App(tk.Tk):
         self.title("My App")
         self.geometry("800x800")
         self._frame = None
-        self.switch_frame(ParamScreen)
-        #self.switch_frame(MainScreen)
+        #self.switch_frame(ParamScreen)
+        self.switch_frame(MainScreen)
     def switch_frame(self, frame_class):
         new_frame = frame_class(self)
         if self._frame is not None:

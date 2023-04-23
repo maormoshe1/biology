@@ -10,7 +10,7 @@ class Parametrs:
         self.S4 = S4
         self.L = l
 
-params = Parametrs("100", "25", "25", "25", "25", "2")
+params = Parametrs("75", "25", "25", "25", "25", "2")
 
 
 

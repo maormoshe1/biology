@@ -219,6 +219,13 @@ class MainScreen(tk.Frame):
                 self.canvas.create_rectangle(x1, y1, x2, y2, fill=self.get_color(i, j), outline='black')
         #reds.append(redNum)
 
+    def change_colors(self):
+        k = 0
+        for item in self.canvas.find_all():
+            if self.canvas.type(item) == 'rectangle':
+                self.canvas.itemconfig(item, fill=self.get_color(0, k))
+                k+=1
+
     #people cell - levels of gray, empty cell - white
     def get_color(self, i, j):
         index = i*greed_side + j
@@ -283,7 +290,7 @@ class MainScreen(tk.Frame):
 
         self.population = next_pop
         self.generationNum += 1
-        self.draw_grid()
+        self.change_colors()
         self.labelGenerationNum.config(text="Generation Num:" + str(self.generationNum))
 
     def get_neighbors(self, i):
