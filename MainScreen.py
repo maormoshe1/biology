@@ -6,12 +6,13 @@ import ParameterScreen
 from ParameterScreen import *
 
 greed_side = 100
-rect_side = 6
+rect_side = 5
 greed_size = greed_side * greed_side
 gray1 = '#404040'
 gray2 = '#808080'
 gray3 = '#b0b0b0'
 bordeaux = '#a00000'
+reds = []
 
 class People:
     def __init__(self, doubt, isSpreader, isAccept, not_spread):
@@ -26,8 +27,8 @@ class MainScreen(tk.Frame):
         self.master = master
         self.population = []
         self.generationNum = 0
-        #self.generate_population()
-        self.generate_strategic_population()
+        self.generate_population()
+        #self.generate_strategic_population()
         self.labelGenerationNum = tk.Label(self, text="Generation Num:" + str(self.generationNum), font=("Arial", 12))
         self.labelGenerationNum.pack()
         self.canvas = tk.Canvas(self, width=greed_side*rect_side, height=greed_side*rect_side)
@@ -80,7 +81,7 @@ class MainScreen(tk.Frame):
         S2 = sum_of_people * int(params.S2) / 100
         S3 = sum_of_people * int(params.S3) / 100
         S4 = sum_of_people * int(params.S4) / 100
-        '''while S1 != 0:
+        while S1 != 0:
             list1 = [*range(0,1250)]
             list11 = [*range(8750,10000)]
             rand = random.randint(0, 1249)
@@ -126,7 +127,7 @@ class MainScreen(tk.Frame):
             index = list4[rand]
             if (self.population[index] == 0):
                 self.population[index] = People(0, False, False, 0)
-                S4 -= 1'''
+                S4 -= 1
         '''outer_list1 = [*range(0, 2500)]
         outer_list2 = [*range(7500, 10000)]
         inner_list = [*range(2500,7500)]
@@ -164,54 +165,59 @@ class MainScreen(tk.Frame):
             if (self.population[index] == 0):
                 self.population[index] = People(0, False, False, 0)
                 S4 -= 1'''
-        outer_list1 = [*range(0, 2500)]
-        outer_list2 = [*range(7500, 10000)]
-        inner_list = [*range(2500, 7500)]
-        while S4 != 0:
-            rand = random.randint(0, 2499)
-            if bool:
-                index = outer_list1[rand]
-                bool = False
-            else:
-                index = outer_list2[rand]
-                bool = True
-            if (self.population[index] == 0):
-                self.population[index] = People(0, False, False, 0)
-                S4 -= 1
-        while S3 != 0:
-            rand = random.randint(0, 2499)
-            if bool:
-                index = outer_list1[rand]
-                bool = False
-            else:
-                index = outer_list2[rand]
-                bool = True
-            if (self.population[index] == 0):
-                self.population[index] = People(1, False, False, 0)
-                S3 -= 1
-        while S2 != 0:
-            rand = random.randint(0, 4999)
-            index = inner_list[rand]
-            if (self.population[index] == 0):
-                self.population[index] = People(2, False, False, 0)
-                S2 -= 1
-        while S1 != 0:
-            rand = random.randint(0, 4999)
-            index = inner_list[rand]
-            if (self.population[index] == 0):
-                self.population[index] = People(3, False, False, 0)
-                S1 -= 1
+        #
+        # outer_list1 = [*range(0, 2500)]
+        # outer_list2 = [*range(7500, 10000)]
+        # inner_list = [*range(2500, 7500)]
+        # while S4 != 0:
+        #     rand = random.randint(0, 2499)
+        #     if bool:
+        #         index = outer_list1[rand]
+        #         bool = False
+        #     else:
+        #         index = outer_list2[rand]
+        #         bool = True
+        #     if (self.population[index] == 0):
+        #         self.population[index] = People(0, False, False, 0)
+        #         S4 -= 1
+        # while S3 != 0:
+        #     rand = random.randint(0, 2499)
+        #     if bool:
+        #         index = outer_list1[rand]
+        #         bool = False
+        #     else:
+        #         index = outer_list2[rand]
+        #         bool = True
+        #     if (self.population[index] == 0):
+        #         self.population[index] = People(1, False, False, 0)
+        #         S3 -= 1
+        # while S2 != 0:
+        #     rand = random.randint(0, 4999)
+        #     index = inner_list[rand]
+        #     if (self.population[index] == 0):
+        #         self.population[index] = People(2, False, False, 0)
+        #         S2 -= 1
+        # while S1 != 0:
+        #     rand = random.randint(0, 4999)
+        #     index = inner_list[rand]
+        #     if (self.population[index] == 0):
+        #         self.population[index] = People(3, False, False, 0)
+        #         S1 -= 1
         self.population[5050] = People(4, True, True, 0)
 
 
     def draw_grid(self):
+        redNum = 0
         for i in range(greed_side):
             for j in range(greed_side):
                 x1 = j * rect_side
                 y1 = i * rect_side
                 x2 = x1 + rect_side
                 y2 = y1 + rect_side
+                if self.get_color(i, j) == 'red' or self.get_color(i, j) == '#a00000':
+                    redNum += 1
                 self.canvas.create_rectangle(x1, y1, x2, y2, fill=self.get_color(i, j), outline='black')
+        reds.append(redNum)
 
     #people cell - levels of gray, empty cell - white
     def get_color(self, i, j):
