@@ -6,7 +6,7 @@ import ParameterScreen
 from ParameterScreen import *
 
 greed_side = 100
-rect_side = 5
+rect_side = 6
 greed_size = greed_side * greed_side
 gray1 = '#404040'
 gray2 = '#808080'
@@ -27,14 +27,14 @@ class MainScreen(tk.Frame):
         self.master = master
         self.population = []
         self.generationNum = 0
-        self.generate_population()
-        #self.generate_strategic_population()
+        self.generate_strategic_population()
+        #self.generate_population()
         self.labelGenerationNum = tk.Label(self, text="Generation Num:" + str(self.generationNum), font=("Arial", 12))
         self.labelGenerationNum.pack()
         self.canvas = tk.Canvas(self, width=greed_side*rect_side, height=greed_side*rect_side)
         self.canvas.pack(padx=10, pady=10)
         self.draw_grid()
-        tk.Button(self, text="Go back to Main Screen", command=self.goto_param_screen).pack()
+        tk.Button(self, text="Go back to Prameter Screen", command=self.goto_param_screen).pack()
         tk.Button(self, text="Next Generation", command=self.next_generation).pack()
         tk.Button(self, text="Next 10 Generations", command=self.next_generation_loop).pack()
 
@@ -75,12 +75,13 @@ class MainScreen(tk.Frame):
         bool = True
         for i in range(greed_size):
             self.population.append(0)
-        print(len(self.population))
         sum_of_people = greed_size * int(params.population) / 100
         S1 = sum_of_people * int(params.S1) / 100
         S2 = sum_of_people * int(params.S2) / 100
         S3 = sum_of_people * int(params.S3) / 100
         S4 = sum_of_people * int(params.S4) / 100
+        #rows - s1 s2 s3 s4 s3 s2 s1
+        '''
         while S1 != 0:
             list1 = [*range(0,1250)]
             list11 = [*range(8750,10000)]
@@ -91,7 +92,6 @@ class MainScreen(tk.Frame):
             else:
                 index = list11[rand]
                 bool = True
-            print(index)
             if (self.population[index] == 0):
                 self.population[index] = People(3, False, False, 0)
                 S1 -= 1
@@ -128,7 +128,10 @@ class MainScreen(tk.Frame):
             if (self.population[index] == 0):
                 self.population[index] = People(0, False, False, 0)
                 S4 -= 1
-        '''outer_list1 = [*range(0, 2500)]
+        '''
+        # rows - s1/s2 s3/s4 s2/s1
+        '''
+        outer_list1 = [*range(0, 2500)]
         outer_list2 = [*range(7500, 10000)]
         inner_list = [*range(2500,7500)]
         while S1 != 0:
@@ -164,8 +167,10 @@ class MainScreen(tk.Frame):
             index = inner_list[rand]
             if (self.population[index] == 0):
                 self.population[index] = People(0, False, False, 0)
-                S4 -= 1'''
-        #
+                S4 -= 1
+        '''
+        # rows - s3/s4 s2/s1 s4/s3
+        '''
         # outer_list1 = [*range(0, 2500)]
         # outer_list2 = [*range(7500, 10000)]
         # inner_list = [*range(2500, 7500)]
@@ -203,7 +208,43 @@ class MainScreen(tk.Frame):
         #     if (self.population[index] == 0):
         #         self.population[index] = People(3, False, False, 0)
         #         S1 -= 1
-        self.population[5050] = People(4, True, True, 0)
+        '''
+        #inner square of s3/s4
+        inner_list = []
+        outer_list = []
+        for i in range(0,10000):
+            outer_list.append(i)
+        for i in range(0,70):
+            for j in range(0,70):
+                inner_list.append(1515+i*100+j)
+                outer_list[1515+i*100+j] = -1
+        while S4 != 0:
+            rand = random.randint(0, 4899)
+            index = inner_list[rand]
+            if (self.population[index] == 0):
+                self.population[index] = People(0, False, False, 0)
+                S4 -= 1
+        while S3 != 0:
+            rand = random.randint(0, 4899)
+            index = inner_list[rand]
+            if (self.population[index] == 0):
+                self.population[index] = People(1, False, False, 0)
+                S3 -= 1
+        while S2 != 0:
+            rand = random.randint(0, 9999)
+            if (outer_list[rand]!= -1):
+                index = outer_list[rand]
+            if (self.population[index] == 0):
+                self.population[index] = People(2, False, False, 0)
+                S2 -= 1
+        while S1 != 0:
+            rand = random.randint(0, 9999)
+            if (outer_list[rand] != -1):
+                index = outer_list[rand]
+            if (self.population[index] == 0):
+                self.population[index] = People(3, False, False, 0)
+                S1 -= 1
+        self.population[random.randint(0, greed_size-1)] = People(4, True, True, 0)
 
 
     def draw_grid(self):
@@ -219,7 +260,7 @@ class MainScreen(tk.Frame):
                 self.canvas.create_rectangle(x1, y1, x2, y2, fill=self.get_color(i, j), outline='black')
         #reds.append(redNum)
 
-    def change_colors(self):
+    def update_colors(self):
         k = 0
         for item in self.canvas.find_all():
             if self.canvas.type(item) == 'rectangle':
@@ -248,7 +289,7 @@ class MainScreen(tk.Frame):
         self.show_next_generation()
 
     def show_next_generation(self, count=0):
-        if count == 10:
+        if count == 1000:
             return
         self.next_generation()
         self.after(1, lambda: self.show_next_generation(count + 1))
@@ -290,7 +331,7 @@ class MainScreen(tk.Frame):
 
         self.population = next_pop
         self.generationNum += 1
-        self.change_colors()
+        self.update_colors()
         self.labelGenerationNum.config(text="Generation Num:" + str(self.generationNum))
 
     def get_neighbors(self, i):

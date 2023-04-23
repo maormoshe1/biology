@@ -10,9 +10,7 @@ class Parametrs:
         self.S4 = S4
         self.L = l
 
-params = Parametrs("75", "25", "25", "25", "25", "2")
-
-
+params = Parametrs("75", "30", "20", "35", "15", "2")
 
 class ParamScreen(tk.Frame):
     def __init__(self, master):
