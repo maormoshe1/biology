@@ -4,6 +4,9 @@ import time
 import tkinter as tk
 import ParameterScreen
 from ParameterScreen import *
+import tkinter.font as font
+
+
 
 greed_side = 100
 rect_side = 5
@@ -33,18 +36,21 @@ class MainScreen(tk.Frame):
             self.generate_strategic_population()
         else:
             self.generate_population()
-        self.labelGenerationNum = tk.Label(self, text="Generation Num:" + str(self.generationNum), font=("Arial", 12))
+
+        self.configure(bg="#dbd6c3")
+        self.labelGenerationNum = tk.Label(self, text="GENERATION NUMBER: " + str(self.generationNum), bg="#dbd6c3", font=("Calibri", 12))
         self.labelGenerationNum.pack()
+        tk.Button(self, text="BACK", font=("Calibri", 10),borderwidth = '4', bg='#877f61', relief="groove",padx=5, pady=1, command=self.goto_param_screen).pack(anchor="nw")
         self.canvas = tk.Canvas(self, width=greed_side*rect_side, height=greed_side*rect_side)
-        self.canvas.pack(padx=10, pady=10)
+        self.canvas.pack(padx=10)
         self.draw_grid()
-        tk.Button(self, text="Go back to Prameter Screen", command=self.goto_param_screen).pack()
-        self.labelHowManyGen = tk.Label(self, text="How many generation?", font=("Arial", 10)).pack()
+        self.labelHowManyGen = tk.Label(self, text="CHOOSE NUMBER OF GENERATION:", bg="#dbd6c3", font=("Calibri", 10)).pack()
         self.entryHowManyGen = tk.Entry(self, validate="key")
         self.entryHowManyGen['validatecommand'] = (self.entryHowManyGen.register(self.validate_entry), '%P')
-        self.entryHowManyGen.pack()
-        tk.Button(self, text="run simulation", command=self.next_generation_loop).pack()
-        tk.Button(self, text="stop", command=self.stop_simulation).pack()
+        self.entryHowManyGen.pack(pady=(5, 45))
+        tk.Button(self, text="RUN", font=("Calibri", 10),borderwidth = '4', bg='#236b37', relief="groove",padx=5, pady=3, command=self.next_generation_loop).place(relx=0.45, rely=0.97, anchor=tk.CENTER)
+        tk.Button(self, text="STOP", font=("Calibri", 10),borderwidth = '4', bg='#80231c', relief="groove",padx=5, pady=3, command=self.stop_simulation).place(relx=0.55, rely=0.97, anchor=tk.CENTER)
+
 
     def validate_entry(self, text):
         # Only allow integers between 0 and 100
