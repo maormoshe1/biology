@@ -6,7 +6,7 @@ import ParameterScreen
 from ParameterScreen import *
 
 greed_side = 100
-rect_side = 6
+rect_side = 5
 greed_size = greed_side * greed_side
 gray1 = '#404040'
 gray2 = '#808080'
@@ -27,7 +27,7 @@ class MainScreen(tk.Frame):
         self.master = master
         self.population = []
         self.generationNum = 0
-        self.stop = False
+        self.stop = 0
         params = ParameterScreen.params
         if (params.mode):
             self.generate_strategic_population()
@@ -39,8 +39,22 @@ class MainScreen(tk.Frame):
         self.canvas.pack(padx=10, pady=10)
         self.draw_grid()
         tk.Button(self, text="Go back to Prameter Screen", command=self.goto_param_screen).pack()
+        self.labelHowManyGen = tk.Label(self, text="How many generation?", font=("Arial", 10)).pack()
+        self.entryHowManyGen = tk.Entry(self, validate="key")
+        self.entryHowManyGen['validatecommand'] = (self.entryHowManyGen.register(self.validate_entry), '%P')
+        self.entryHowManyGen.pack()
         tk.Button(self, text="run simulation", command=self.next_generation_loop).pack()
         tk.Button(self, text="stop", command=self.stop_simulation).pack()
+
+    def validate_entry(self, text):
+        # Only allow integers between 0 and 100
+        if text == "":
+            return True
+        if text.isdigit():
+            num = int(text)
+            if num >= 0 and num <= 1000:
+                return True
+        return False
 
     #people cell - People(), empty cell - 0
     def generate_population(self):
@@ -162,17 +176,21 @@ class MainScreen(tk.Frame):
             return gray3
 
     def next_generation_loop(self):
-        self.stop = False
+        if (self.entryHowManyGen.get()==""):
+            self.stop = 0
+        else:
+            self.stop = int(self.entryHowManyGen.get())
         self.show_next_generation()
 
     def show_next_generation(self, count=0):
-        if self.stop == True:
+        if self.stop == 0:
             return
+        self.stop = self.stop - 1
         self.next_generation()
         self.after(250, lambda: self.show_next_generation(count + 1))
 
     def stop_simulation(self):
-        self.stop = True
+        self.stop = 0
 
     def next_generation(self):
         next_pop = copy.deepcopy(self.population)
