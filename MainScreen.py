@@ -27,16 +27,20 @@ class MainScreen(tk.Frame):
         self.master = master
         self.population = []
         self.generationNum = 0
-        self.generate_strategic_population()
-        #self.generate_population()
+        self.stop = False
+        params = ParameterScreen.params
+        if (params.mode):
+            self.generate_strategic_population()
+        else:
+            self.generate_population()
         self.labelGenerationNum = tk.Label(self, text="Generation Num:" + str(self.generationNum), font=("Arial", 12))
         self.labelGenerationNum.pack()
         self.canvas = tk.Canvas(self, width=greed_side*rect_side, height=greed_side*rect_side)
         self.canvas.pack(padx=10, pady=10)
         self.draw_grid()
         tk.Button(self, text="Go back to Prameter Screen", command=self.goto_param_screen).pack()
-        tk.Button(self, text="Next Generation", command=self.next_generation).pack()
-        tk.Button(self, text="Next 10 Generations", command=self.next_generation_loop).pack()
+        tk.Button(self, text="run simulation", command=self.next_generation_loop).pack()
+        tk.Button(self, text="stop", command=self.stop_simulation).pack()
 
     #people cell - People(), empty cell - 0
     def generate_population(self):
@@ -80,135 +84,7 @@ class MainScreen(tk.Frame):
         S2 = sum_of_people * int(params.S2) / 100
         S3 = sum_of_people * int(params.S3) / 100
         S4 = sum_of_people * int(params.S4) / 100
-        #rows - s1 s2 s3 s4 s3 s2 s1
-        '''
-        while S1 != 0:
-            list1 = [*range(0,1250)]
-            list11 = [*range(8750,10000)]
-            rand = random.randint(0, 1249)
-            if bool:
-                index = list1[rand]
-                bool = False
-            else:
-                index = list11[rand]
-                bool = True
-            if (self.population[index] == 0):
-                self.population[index] = People(3, False, False, 0)
-                S1 -= 1
-        while S2 != 0:
-            list2 = [*range(1250, 2500)]
-            list21 = [*range(7500,8750)]
-            rand = random.randint(0, 1249)
-            if bool:
-                index = list2[rand]
-                bool = False
-            else:
-                index = list21[rand]
-                bool = True
-            if (self.population[index] == 0):
-                self.population[index] = People(2, False, False, 0)
-                S2 -= 1
-        while S3 != 0:
-            list3 = [*range(2500, 3750)]
-            list31 = [*range(6250,7500)]
-            rand = random.randint(0, 1249)
-            if bool:
-                index = list3[rand]
-                bool = False
-            else:
-                index = list31[rand]
-                bool = True
-            if (self.population[index] == 0):
-                self.population[index] = People(1, False, False, 0)
-                S3 -= 1
-        while S4 != 0:
-            list4 = [*range(3750, 6250)]
-            rand = random.randint(0, 2499)
-            index = list4[rand]
-            if (self.population[index] == 0):
-                self.population[index] = People(0, False, False, 0)
-                S4 -= 1
-        '''
-        # rows - s1/s2 s3/s4 s2/s1
-        '''
-        outer_list1 = [*range(0, 2500)]
-        outer_list2 = [*range(7500, 10000)]
-        inner_list = [*range(2500,7500)]
-        while S1 != 0:
-            rand = random.randint(0, 2499)
-            if bool:
-                index = outer_list1[rand]
-                bool = False
-            else:
-                index = outer_list2[rand]
-                bool = True
-            if (self.population[index] == 0):
-                self.population[index] = People(3, False, False, 0)
-                S1 -= 1
-        while S2 != 0:
-            rand = random.randint(0, 2499)
-            if bool:
-                index = outer_list1[rand]
-                bool = False
-            else:
-                index = outer_list2[rand]
-                bool = True
-            if (self.population[index] == 0):
-                self.population[index] = People(2, False, False, 0)
-                S2 -= 1
-        while S3 != 0:
-            rand = random.randint(0, 4999)
-            index = inner_list[rand]
-            if (self.population[index] == 0):
-                self.population[index] = People(1, False, False, 0)
-                S3 -= 1
-        while S4 != 0:
-            rand = random.randint(0, 4999)
-            index = inner_list[rand]
-            if (self.population[index] == 0):
-                self.population[index] = People(0, False, False, 0)
-                S4 -= 1
-        '''
-        # rows - s3/s4 s2/s1 s4/s3
-        '''
-        # outer_list1 = [*range(0, 2500)]
-        # outer_list2 = [*range(7500, 10000)]
-        # inner_list = [*range(2500, 7500)]
-        # while S4 != 0:
-        #     rand = random.randint(0, 2499)
-        #     if bool:
-        #         index = outer_list1[rand]
-        #         bool = False
-        #     else:
-        #         index = outer_list2[rand]
-        #         bool = True
-        #     if (self.population[index] == 0):
-        #         self.population[index] = People(0, False, False, 0)
-        #         S4 -= 1
-        # while S3 != 0:
-        #     rand = random.randint(0, 2499)
-        #     if bool:
-        #         index = outer_list1[rand]
-        #         bool = False
-        #     else:
-        #         index = outer_list2[rand]
-        #         bool = True
-        #     if (self.population[index] == 0):
-        #         self.population[index] = People(1, False, False, 0)
-        #         S3 -= 1
-        # while S2 != 0:
-        #     rand = random.randint(0, 4999)
-        #     index = inner_list[rand]
-        #     if (self.population[index] == 0):
-        #         self.population[index] = People(2, False, False, 0)
-        #         S2 -= 1
-        # while S1 != 0:
-        #     rand = random.randint(0, 4999)
-        #     index = inner_list[rand]
-        #     if (self.population[index] == 0):
-        #         self.population[index] = People(3, False, False, 0)
-        #         S1 -= 1
-        '''
+
         #inner square of s3/s4
         inner_list = []
         outer_list = []
@@ -286,13 +162,17 @@ class MainScreen(tk.Frame):
             return gray3
 
     def next_generation_loop(self):
+        self.stop = False
         self.show_next_generation()
 
     def show_next_generation(self, count=0):
-        if count == 1000:
+        if self.stop == True:
             return
         self.next_generation()
-        self.after(1, lambda: self.show_next_generation(count + 1))
+        self.after(250, lambda: self.show_next_generation(count + 1))
+
+    def stop_simulation(self):
+        self.stop = True
 
     def next_generation(self):
         next_pop = copy.deepcopy(self.population)

@@ -2,15 +2,16 @@ import tkinter as tk
 from MainScreen import *
 
 class Parametrs:
-    def __init__(self, pop, S1, S2, S3, S4, l):
+    def __init__(self, pop, S1, S2, S3, S4, l, mode):
         self.population = pop
         self.S1 = S1
         self.S2 = S2
         self.S3 = S3
         self.S4 = S4
         self.L = l
+        self.mode = mode
 
-params = Parametrs("75", "30", "20", "35", "15", "2")
+params = Parametrs("60", "25", "25", "25", "25", "2", False)
 
 class ParamScreen(tk.Frame):
     def __init__(self, master):
@@ -42,9 +43,12 @@ class ParamScreen(tk.Frame):
         self.entryL = tk.Entry(self, validate="key")
         self.entryL['validatecommand'] = (self.entryL.register(self.validate_entry2), '%P')
         self.entryL.pack()
+        self.toggle_state = tk.BooleanVar()
+        self.toggle_button = tk.Checkbutton(self, text="astrategic mode",font=("Helvetica", 10),variable=self.toggle_state,onvalue=True,offvalue=False)
+        self.toggle_button.pack()
         self.labelNotValid = tk.Label(self, text="", fg="red" , font=("Arial", 12))
         self.labelNotValid.pack(pady=10)
-        tk.Button(self, text="Start", command=self.goto_main_screen).pack(pady=25)
+        tk.Button(self, text="Start", font=("Helvetica", 16), command=self.goto_main_screen, bg='blue', padx=10, pady=5).pack(pady=25)
 
     def validate_entry(self, text):
         # Only allow integers between 0 and 100
@@ -85,6 +89,7 @@ class ParamScreen(tk.Frame):
         params.S3 = self.entryS3.get()
         params.S4 = self.entryS4.get()
         params.L = self.entryL.get()
+        params.mode = self.toggle_state.get()
         if self.validate_not_empty():
             if self.validate_S():
                 self.master.switch_frame(MainScreen)
