@@ -44,7 +44,7 @@ class MainScreen(tk.Frame):
         self.canvas = tk.Canvas(self, width=greed_side*rect_side, height=greed_side*rect_side)
         self.canvas.pack(padx=10)
         self.draw_grid()
-        self.labelHowManyGen = tk.Label(self, text="CHOOSE NUMBER OF GENERATION:", bg="#dbd6c3", font=("Calibri", 10)).pack()
+        self.labelHowManyGen = tk.Label(self, text="CHOOSE NUMBER OF GENERATIONS:", bg="#dbd6c3", font=("Calibri", 10)).pack()
         self.entryHowManyGen = tk.Entry(self, validate="key")
         self.entryHowManyGen['validatecommand'] = (self.entryHowManyGen.register(self.validate_entry), '%P')
         self.entryHowManyGen.pack(pady=(5, 45))
