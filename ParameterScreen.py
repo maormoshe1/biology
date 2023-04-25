@@ -11,7 +11,7 @@ class Parametrs:
         self.L = l
         self.mode = mode
 
-params = Parametrs("90", "25", "25", "25", "25", "5", False)
+params = Parametrs("80", "25", "25", "25", "25", "5", False)
 
 class ParamScreen(tk.Frame):
     def __init__(self, master):

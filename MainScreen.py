@@ -42,7 +42,7 @@ class MainScreen(tk.Frame):
         self.labelGenerationNum.pack()
         tk.Button(self, text="BACK", font=("Calibri", 10),borderwidth = '4', bg='#877f61', relief="groove",padx=5, pady=1, command=self.goto_param_screen).pack(anchor="nw")
         self.canvas = tk.Canvas(self, width=greed_side*rect_side, height=greed_side*rect_side)
-        self.canvas.pack(padx=10)
+        self.canvas.pack(padx=10, pady=10)
         self.draw_grid()
         self.labelHowManyGen = tk.Label(self, text="CHOOSE NUMBER OF GENERATIONS:", bg="#dbd6c3", font=("Calibri", 10)).pack()
         self.entryHowManyGen = tk.Entry(self, validate="key")
@@ -193,7 +193,7 @@ class MainScreen(tk.Frame):
             return
         self.stop = self.stop - 1
         self.next_generation()
-        self.after(250, lambda: self.show_next_generation(count + 1))
+        self.after(600, lambda: self.show_next_generation(count + 1))
 
     def stop_simulation(self):
         self.stop = 0
