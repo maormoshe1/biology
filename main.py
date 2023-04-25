@@ -2,7 +2,6 @@
 import tkinter as tk
 from ParameterScreen import *
 from MainScreen import *
-import matplotlib.pyplot as plt
 
 
 class App(tk.Tk):
